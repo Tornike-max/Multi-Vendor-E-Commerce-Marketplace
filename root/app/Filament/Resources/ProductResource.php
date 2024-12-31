@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Filament\Forms\Components\RichEditor;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 
 class ProductResource extends Resource
 {
@@ -83,9 +85,17 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([])
+            ->columns([
+                TextColumn::make('title')->sortable()->searchable()->words(10),
+                TextColumn::make('status')->badge()->colors(ProductStatusEnum::colors()),
+                TextColumn::make('department.name'),
+                TextColumn::make('category.name'),
+                TextColumn::make('created_at')->dateTime(),
+
+            ])
             ->filters([
-                //
+                SelectFilter::make('status')->options(ProductStatusEnum::labels()),
+                SelectFilter::make('department_id')->relationship('department', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
