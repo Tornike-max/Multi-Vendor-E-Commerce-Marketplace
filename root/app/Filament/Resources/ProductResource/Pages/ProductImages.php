@@ -17,10 +17,10 @@ class ProductImages extends EditRecord
         return $form->schema([
             SpatieMediaLibraryFileUpload::make('images')
                 ->image()
+                ->collection('images')
                 ->multiple()
                 ->openable()
                 ->panelLayout('grid')
-                ->collection('images')
                 ->reorderable()
                 ->appendFiles()
                 ->preserveFilenames()
