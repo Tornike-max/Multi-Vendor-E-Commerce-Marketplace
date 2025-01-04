@@ -22,6 +22,7 @@ use Illuminate\Support\Str;
 use Filament\Forms\Components\RichEditor;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 
@@ -92,6 +93,7 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('images')->collection('images')->limit(1)->conversion('thumb'),
                 TextColumn::make('title')->sortable()->searchable()->words(10),
                 TextColumn::make('status')->badge()->colors(ProductStatusEnum::colors()),
                 TextColumn::make('department.name'),

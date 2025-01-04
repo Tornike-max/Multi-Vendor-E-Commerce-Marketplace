@@ -12,7 +12,7 @@ class ProductImages extends EditRecord
 {
     protected static string $resource = ProductResource::class;
 
-    public  function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form->schema([
             SpatieMediaLibraryFileUpload::make('images')
