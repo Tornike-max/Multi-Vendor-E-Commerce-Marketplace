@@ -30,7 +30,7 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-queue-list';
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
 
@@ -99,7 +99,6 @@ class ProductResource extends Resource
                 TextColumn::make('department.name'),
                 TextColumn::make('category.name'),
                 TextColumn::make('created_at')->dateTime(),
-
             ])
             ->filters([
                 SelectFilter::make('status')->options(ProductStatusEnum::labels()),

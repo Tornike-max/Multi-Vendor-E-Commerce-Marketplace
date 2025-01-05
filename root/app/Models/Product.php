@@ -7,18 +7,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+// use Illuminate\Bus\Queueable;
+
 
 class Product extends Model implements HasMedia
 {
 
     use InteractsWithMedia;
 
-    public function registerMediaConversions(?Media $media = null): void
+
+    public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('thumb')->width(100);
-        $this->addMediaConversion('small')->width(480);
-        $this->addMediaConversion('large')->width(1200);
+        $this->addMediaConversion('thumb')->width(100)->height(100);;
+        $this->addMediaConversion('small')->width(480)->height(480);;
+        $this->addMediaConversion('large')->width(1200)->height(800);;
     }
+
 
     public function category(): BelongsTo
     {
