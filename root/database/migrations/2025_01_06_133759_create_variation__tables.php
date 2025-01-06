@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -41,6 +40,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('variation_types');
         Schema::dropIfExists('variation_type_options');
+        Schema::dropIfExists('product_variations');
     }
 };
