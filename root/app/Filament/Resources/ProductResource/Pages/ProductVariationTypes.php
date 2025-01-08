@@ -15,7 +15,8 @@ use Filament\Resources\Pages\EditRecord;
 class ProductVariationTypes extends EditRecord
 {
     protected static string $resource = ProductResource::class;
-    protected static ?string $navigationIcon = 'heroicon-c-photo';
+    //protected static string $title = 'Variation Types';
+    protected static ?string $navigationIcon = 'heroicon-s-clipboard-document-list';
 
 
     public function form(Form $form): Form
