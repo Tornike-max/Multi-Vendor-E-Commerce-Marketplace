@@ -31,5 +31,10 @@ class ProductVariations extends EditRecord
         ];
     }
 
-    protected function mutateFormDataBeforeFill(array $data): array {}
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $variations = $this->record->variations->toArray();
+        $data['variations'] = $this->mergeCartesianWithExisting();
+        return $data;
+    }
 }
