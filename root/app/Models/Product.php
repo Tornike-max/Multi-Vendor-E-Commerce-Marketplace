@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Filament\Resources\ProductResource\Pages\ProductVariations;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,6 +44,6 @@ class Product extends Model implements HasMedia
 
     public function variations(): HasMany
     {
-        return $this->hasMany(ProductVariations::class, 'product_id');
+        return $this->hasMany(ProductVariation::class, 'product_id');
     }
 }
