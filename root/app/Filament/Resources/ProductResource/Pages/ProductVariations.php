@@ -24,11 +24,12 @@ class ProductVariations extends EditRecord
     public function form(Form $form): Form
     {
         $types = $this->record->variationTypes;
+        //dd($types);
         $fields = [];
-        foreach ($types as $type) {
-            $fields[] = TextInput::make('variation_type_' . $type['id'] . 'id')
+        foreach ($types as $i => $type) {
+            $fields[] = TextInput::make('variation_type_' . ($i + 1) . '.id')
                 ->hidden();
-            $fields[] = TextInput::make('variation_type_' . $type['id'] . 'name')
+            $fields[] = TextInput::make('variation_type_' . ($i + 1) . '.name')
                 ->label($type['name']);
         }
 
