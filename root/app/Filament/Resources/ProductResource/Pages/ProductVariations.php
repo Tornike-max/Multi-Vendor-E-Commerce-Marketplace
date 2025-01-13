@@ -35,7 +35,7 @@ class ProductVariations extends EditRecord
 
         return $form->schema([
             Repeater::make('variations')
-                ->label('false')
+                ->label(false)
                 ->collapsible()
                 ->defaultItems(1)
                 ->schema([
@@ -128,5 +128,10 @@ class ProductVariations extends EditRecord
         }
 
         return $result;
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        return [];
     }
 }
