@@ -132,6 +132,22 @@ class ProductVariations extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
+
+        $formatedData = [];
+
+        foreach ($data['variations'] as $option) {
+            $variationTypeOptionsIds = [];
+
+            foreach ($this->record->variationTypes as $i => $variationType) {
+                $variationTypeOptionsIds[] = $option['variation_type_' . ($variationType->id)];
+            }
+            $quantity = $option['quantity'];
+            $price = $option['price'];
+
+            $formatedData[] = [
+                'variation_type_option_ids' => ''
+            ];
+        }
         return [];
     }
 }
