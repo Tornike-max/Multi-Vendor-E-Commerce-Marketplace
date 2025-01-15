@@ -16,6 +16,10 @@ class Product extends Model implements HasMedia
 
     use InteractsWithMedia;
 
+    protected $casts = [
+        'variations' => 'array'
+    ];
+
 
     public function registerMediaConversions(Media $media = null): void
     {

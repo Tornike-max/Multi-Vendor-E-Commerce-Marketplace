@@ -12,6 +12,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Model;
 use PhpParser\Node\Stmt\Label;
 
 class ProductVariations extends EditRecord
@@ -133,21 +134,39 @@ class ProductVariations extends EditRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
 
-        $formatedData = [];
+        $formattedData = [];
 
         foreach ($data['variations'] as $option) {
             $variationTypeOptionsIds = [];
 
             foreach ($this->record->variationTypes as $i => $variationType) {
-                $variationTypeOptionsIds[] = $option['variation_type_' . ($variationType->id)];
+                $variationTypeOptionsIds[] = $option['variation_type_' . ($variationType->id)]['id'];
             }
             $quantity = $option['quantity'];
             $price = $option['price'];
 
-            $formatedData[] = [
-                'variation_type_option_ids' => ''
+            $formattedData[] = [
+                'variation_type_option_ids' => $variationTypeOptionsIds,
+                'price' => $price,
+                'quantity' => $quantity
             ];
         }
-        return [];
+        $data['variations'] = $formattedData;
+
+        //dd($data['variations']);
+        return $data;
+    }
+
+    protected function handleRecordUpdate(Model $record, array $data): Model
+    {
+        $variations = $data['variations'];
+        unset($data['variations']);
+
+        $record->update($data);
+        $record->variations()->delete();
+        $record->variations()->createMany($variations);
+
+
+        return $record;
     }
 }
