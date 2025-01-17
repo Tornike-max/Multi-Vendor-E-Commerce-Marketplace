@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductListResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,14 @@ class ProductController extends Controller
         $products = Product::query()->published()->paginate(12);
         return inertia('Home', [
             'products' =>   ProductListResource::collection($products)
+        ]);
+    }
+
+    public function show(Product $product)
+    {
+        return inertia('Products/Index', [
+            'product' => new ProductResource($product),
+            'variationOptions' => request('options', [])
         ]);
     }
 }

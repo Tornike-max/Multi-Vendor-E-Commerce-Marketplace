@@ -33,6 +33,27 @@ export type Product = {
     };
 };
 
+export type Image = {
+    id: number;
+    thumb: string;
+    small: string;
+    large: string;
+};
+
+export type VariationTypeOptions = {
+    images: Image[];
+    name: string;
+    id: number;
+    type: VariationType;
+};
+
+export type VariationType = {
+    id: number;
+    name: string;
+    type: "select" | "radio" | "image";
+    options: VariationTypeOptions[];
+};
+
 export type PaginationProps<T> = {
     data: Array<T>;
 };

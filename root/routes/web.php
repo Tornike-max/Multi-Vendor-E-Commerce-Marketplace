@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [ProductController::class, 'index'])->middleware('auth')->name('home');
+Route::get('/product/{product:slug}', [ProductController::class, 'show'])->middleware('auth')->name('product.show');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
