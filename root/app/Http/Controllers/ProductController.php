@@ -19,7 +19,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return inertia('Products/Index', [
+        return inertia('Products/Show', [
             'product' => new ProductResource($product),
             'variationOptions' => request('options', [])
         ]);

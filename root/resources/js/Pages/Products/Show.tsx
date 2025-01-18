@@ -1,13 +1,13 @@
 import { PageProps, Product } from "@/types";
 import React from "react";
 
-const Index = ({
+const Show = ({
     auth,
     product,
     variationOptions,
 }: PageProps<{ product: Product; variationOptions: number[] }>) => {
-    console.log(variationOptions);
-    return <div>Index</div>;
+    console.log(product);
+    return <div>Show</div>;
 };
 
-export default Index;
+export default Show;
