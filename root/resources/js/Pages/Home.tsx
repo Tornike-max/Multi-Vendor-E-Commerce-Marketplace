@@ -8,6 +8,7 @@ export default function Home({
     products,
 }: PageProps<{ products: PaginationProps<Product> }>) {
     console.log(products);
+
     const handleImageError = () => {
         document
             .getElementById("screenshot-container")

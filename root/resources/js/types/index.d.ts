@@ -17,6 +17,8 @@ export type PageProps<
 };
 
 export type Product = {
+    variations: VariationType;
+    images: any;
     id: number;
     title: string;
     slug: string;
@@ -40,7 +42,7 @@ export type Image = {
     large: string;
 };
 
-export type VariationTypeOptions = {
+export type VariationTypeOption = {
     images: Image[];
     name: string;
     id: number;
@@ -51,7 +53,7 @@ export type VariationType = {
     id: number;
     name: string;
     type: "select" | "radio" | "image";
-    options: VariationTypeOptions[];
+    options: VariationTypeOption[];
 };
 
 export type PaginationProps<T> = {
