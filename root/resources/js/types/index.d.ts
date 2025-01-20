@@ -26,7 +26,7 @@ export type Product = {
     description: string;
     image: string;
     images: Image[];
-    variation_types: VariationType[];
+    variationTypes: VariationType[];
     variations: Array<{
         id: number;
         variation_type_option_ids: number[];
@@ -60,7 +60,7 @@ export type VariationTypeOption = {
 export type VariationType = {
     id: number;
     name: string;
-    type: "select" | "radio" | "image";
+    type: "Select" | "Radio" | "Image";
     options: VariationTypeOption[];
 };
 

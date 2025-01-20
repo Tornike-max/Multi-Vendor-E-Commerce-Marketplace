@@ -2,7 +2,13 @@ import Carousel from "@/Components/Core/Carousel";
 import CurrencyFormatter from "@/Components/Core/CurrencyFormatter";
 import { arraysAreEqual } from "@/Helpers/helpers";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { PageProps, Product, VariationTypeOption } from "@/types";
+import {
+    Image,
+    PageProps,
+    Product,
+    VariationType,
+    VariationTypeOption,
+} from "@/types";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
 import React, { useEffect, useMemo, useState } from "react";
 
@@ -114,57 +120,94 @@ const Show = ({
     };
 
     const renderProductVariationTypes = () => {
-        return product.variationTypes.map((type) => (
-            <div key={type.id}>
-                <b>{type.name}</b>
-                {type.type === "image" && (
-                    <div className="flex gap-2 mb-4">
-                        {type.options.map((option) => (
-                            <div
-                                onClick={() => chooseOption(type.id, option)}
-                                key={option.id}
-                            >
-                                {option.images && (
-                                    <img
-                                        src={option.images[0].thumb}
-                                        alt=""
-                                        className={`w-[50px] ${
+        return product?.variationTypes.map(
+            (type: {
+                id: React.Key | null | undefined;
+                name:
+                    | string
+                    | number
+                    | boolean
+                    | React.ReactElement<
+                          any,
+                          string | React.JSXElementConstructor<any>
+                      >
+                    | Iterable<React.ReactNode>
+                    | React.ReactPortal
+                    | null
+                    | undefined;
+                type: string;
+                options: any[];
+            }) => (
+                <div key={type.id} className="my-2">
+                    <b>{type.name}</b>
+                    {type.type === "Image" && (
+                        <div className="flex gap-2 mb-4">
+                            {type.options.map(
+                                (option: {
+                                    id: number;
+                                    images: Image[];
+                                    name?: string;
+                                    type?: VariationType;
+                                }) => (
+                                    <div
+                                        onClick={() =>
+                                            chooseOption(type?.id, option)
+                                        }
+                                        key={option.id}
+                                    >
+                                        {option.images && (
+                                            <img
+                                                src={option.images[0].thumb}
+                                                alt=""
+                                                className={`w-[50px] ${
+                                                    selectedOptions[type.id]
+                                                        ?.id === option.id
+                                                        ? "outline outline-4 outline-primary"
+                                                        : ""
+                                                }`}
+                                            />
+                                        )}
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    )}
+                    {type.type === "Radio" && (
+                        <div className="flex join mb-4">
+                            {type.options.map(
+                                (option: {
+                                    id: number;
+                                    name: any;
+                                    images?: Image[];
+                                    type?: VariationType;
+                                }) => (
+                                    <input
+                                        onChange={() =>
+                                            chooseOption(type?.id, option)
+                                        }
+                                        key={option.id}
+                                        className="join-item btn"
+                                        type="radio"
+                                        value={option.id}
+                                        checked={
                                             selectedOptions[type.id]?.id ===
                                             option.id
-                                                ? "outline outline-4 outline-primary"
-                                                : ""
-                                        }`}
+                                        }
+                                        name={"variation_type_" + type.id}
+                                        aria-label={option.name}
                                     />
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                )}
-                {type.type === "radio" && (
-                    <div className="flex join mb-4">
-                        {type.options.map((option) => (
-                            <input
-                                onChange={() => chooseOption(type.id, option)}
-                                key={option.id}
-                                className="join-item btn"
-                                type="radio"
-                                value={option.id}
-                                checked={
-                                    selectedOptions[type.id]?.id === option.id
-                                }
-                                name={"variation_type_" + type.id}
-                                aria-label={option.name}
-                            />
-                        ))}
-                    </div>
-                )}
-            </div>
-        ));
+                                )
+                            )}
+                        </div>
+                    )}
+                </div>
+            )
+        );
     };
 
     const renderAddToCartButton = () => {
         return (
-            <div className="mb-8 flex gap-4">
+            <div className="my-6 flex gap-4">
                 <select
                     value={data.quantity}
                     onChange={onQuantityChange}

@@ -153,7 +153,6 @@ class ProductVariations extends EditRecord
         }
         $data['variations'] = $formattedData;
 
-        //dd($data['variations']);
         return $data;
     }
 
@@ -163,8 +162,8 @@ class ProductVariations extends EditRecord
         unset($data['variations']);
 
         $record->update($data);
-        $record->variations()->delete();
-        $record->variations()->createMany($variations);
+        $record->ProductVariations()->delete();
+        $record->ProductVariations()->createMany($variations);
 
 
         return $record;
