@@ -1,5 +1,6 @@
 import Carousel from "@/Components/Core/Carousel";
 import CurrencyFormatter from "@/Components/Core/CurrencyFormatter";
+import { arraysAreEqual } from "@/Helpers/helpers";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps, Product, VariationTypeOption } from "@/types";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
@@ -24,17 +25,17 @@ const Show = ({
     const images = useMemo(() => {
         for (let typeId in selectedOptions) {
             let option = selectedOptions[typeId];
-            if (option.images.length > 0) return option.images;
+            if (option?.images?.length > 0) return option?.images;
         }
-        return product.images;
+        return product?.images;
     }, [product, selectedOptions]);
 
     const computedProduct: any = useMemo(() => {
         const selectedOptionIds = Object.values(selectedOptions)
-            .map((op) => op.id)
-            .sort();
+            ?.map((op) => op?.id)
+            ?.sort();
 
-        for (let variation of product.variations) {
+        for (let variation of product?.variations) {
             const optionIdS = variation.variation_type_option_ids.sort();
             if (arraysAreEqual(selectedOptionIds, optionIdS)) {
                 return {
@@ -53,7 +54,7 @@ const Show = ({
     }, [product, selectedOptions]);
 
     useEffect(() => {
-        for (let type of product.variationTypes) {
+        for (let type of product?.variationTypes) {
             const selectedOptionId: number = variationOptions[type.id];
             console.log(selectedOptionId, type.options);
             chooseOption(
@@ -112,25 +113,94 @@ const Show = ({
         });
     };
 
-    const renderProductVariationTypes = () => {};
+    const renderProductVariationTypes = () => {
+        return product.variationTypes.map((type) => (
+            <div key={type.id}>
+                <b>{type.name}</b>
+                {type.type === "image" && (
+                    <div className="flex gap-2 mb-4">
+                        {type.options.map((option) => (
+                            <div
+                                onClick={() => chooseOption(type.id, option)}
+                                key={option.id}
+                            >
+                                {option.images && (
+                                    <img
+                                        src={option.images[0].thumb}
+                                        alt=""
+                                        className={`w-[50px] ${
+                                            selectedOptions[type.id]?.id ===
+                                            option.id
+                                                ? "outline outline-4 outline-primary"
+                                                : ""
+                                        }`}
+                                    />
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
+                {type.type === "radio" && (
+                    <div className="flex join mb-4">
+                        {type.options.map((option) => (
+                            <input
+                                onChange={() => chooseOption(type.id, option)}
+                                key={option.id}
+                                className="join-item btn"
+                                type="radio"
+                                value={option.id}
+                                checked={
+                                    selectedOptions[type.id]?.id === option.id
+                                }
+                                name={"variation_type_" + type.id}
+                                aria-label={option.name}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
+        ));
+    };
 
-    const renderAddToCartButton = () => {};
+    const renderAddToCartButton = () => {
+        return (
+            <div className="mb-8 flex gap-4">
+                <select
+                    value={data.quantity}
+                    onChange={onQuantityChange}
+                    className="select select-bordered w-full"
+                >
+                    {Array.from({
+                        length: Math.min(10, computedProduct.quantity),
+                    }).map((el, i) => (
+                        <option key={i + 1} value={i + 1}>
+                            quantity {i + 1}
+                        </option>
+                    ))}
+                </select>
+                <button className="btn btn-primary" onClick={addToCart}>
+                    Add to Cart
+                </button>
+            </div>
+        );
+    };
 
     useEffect(() => {
         const idsMap = Object.fromEntries(
             Object.entries(selectedOptions).map(
                 ([typeId, option]: [string, VariationTypeOption]) => [
                     typeId,
-                    option.id,
+                    option?.id,
                 ]
             )
         );
         console.log(idsMap);
         setData("option_ids", idsMap);
     }, [selectedOptions]);
+
     return (
         <AuthenticatedLayout>
-            <Head title="Home" />
+            <Head title={product.title} />
             <div className="container mx-auto p-8">
                 <div className="grid gap-8 grid-cols-1 lg:grid-cols-12">
                     <div className="col-span-7">
@@ -146,7 +216,25 @@ const Show = ({
                             </div>
                         </div>
 
-                        {/* {renderProductVariationTypes()} */}
+                        {renderProductVariationTypes()}
+
+                        {computedProduct.quantity != undefined &&
+                            computedProduct.quantity < 10 && (
+                                <div className="text-error my-4">
+                                    <span>
+                                        Only {computedProduct.quantity} left
+                                    </span>
+                                </div>
+                            )}
+                        {renderAddToCartButton()}
+
+                        <b className="text-xl">About the Item</b>
+                        <div
+                            className="wysiwyg-output"
+                            dangerouslySetInnerHTML={{
+                                __html: product.description,
+                            }}
+                        ></div>
                     </div>
                 </div>
             </div>

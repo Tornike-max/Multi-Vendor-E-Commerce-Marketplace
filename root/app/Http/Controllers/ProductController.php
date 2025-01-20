@@ -19,6 +19,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+        // $productObject = Product::query()->with(['variationTypes', 'productVariations'])->where('id', '=', $product->id)->first();
         return inertia('Products/Show', [
             'product' => new ProductResource($product),
             'variationOptions' => request('options', [])

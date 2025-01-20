@@ -17,6 +17,7 @@ class ProductResource extends JsonResource
     public function toArray(Request $request): array
     {
         //dd($this->images);
+        //dd($this->department);
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -42,6 +43,7 @@ class ProductResource extends JsonResource
                 'id' => $this->department->id,
                 'name' => $this->department->name
             ],
+            'variations' => $this->productVariations,
             'variationTypes' => $this->variationTypes->map(function ($variationType) {
                 return [
                     'id' => $variationType->id,

@@ -64,7 +64,7 @@ class ProductVariations extends EditRecord
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        $variations = $this->record->variations->toArray();
+        $variations = $this->record->productVariations->toArray();
         $data['variations'] = $this->mergeCartesianWithExisting($this->record->variationTypes, $variations);
         return $data;
     }

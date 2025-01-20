@@ -17,14 +17,22 @@ export type PageProps<
 };
 
 export type Product = {
-    variations: VariationType;
-    images: any;
     id: number;
     title: string;
     slug: string;
     price: number;
     quantity: number;
+    short_description: string;
+    description: string;
     image: string;
+    images: Image[];
+    variation_types: VariationType[];
+    variations: Array<{
+        id: number;
+        variation_type_option_ids: number[];
+        quantity: number;
+        price: number;
+    }>;
     user: {
         id: number;
         name: string;

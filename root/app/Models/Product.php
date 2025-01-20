@@ -23,7 +23,6 @@ class Product extends Model implements HasMedia
         'variations' => 'array'
     ];
 
-
     public function scopeForVendor(Builder $query): Builder
     {
         return $query->where('created_by', '=', Auth::user()->id);
@@ -39,7 +38,6 @@ class Product extends Model implements HasMedia
         $this->addMediaConversion('small')->width(480)->height(480);;
         $this->addMediaConversion('large')->width(1200)->height(800);;
     }
-
 
     public function category(): BelongsTo
     {
@@ -61,8 +59,8 @@ class Product extends Model implements HasMedia
         return $this->hasMany(VariationType::class);
     }
 
-    public function variations(): HasMany
+    public function productVariations(): HasMany
     {
-        return $this->hasMany(ProductVariation::class, 'product_id');
+        return $this->hasMany(ProductVariation::class);
     }
 }
