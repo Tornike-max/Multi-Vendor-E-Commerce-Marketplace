@@ -65,9 +65,9 @@ const Show = ({
             console.log(selectedOptionId, type.options);
             chooseOption(
                 type.id,
-                type.options.find(
+                type?.options?.find(
                     (op: { id: number }) => op.id == selectedOptionId
-                ),
+                ) as VariationTypeOption,
                 false
             );
         }
@@ -151,7 +151,10 @@ const Show = ({
                                 }) => (
                                     <div
                                         onClick={() =>
-                                            chooseOption(type?.id, option)
+                                            chooseOption(type?.id as number, {
+                                                ...option,
+                                                name: option.name || "",
+                                            })
                                         }
                                         key={option.id}
                                     >
@@ -160,8 +163,9 @@ const Show = ({
                                                 src={option.images[0].thumb}
                                                 alt=""
                                                 className={`w-[50px] ${
-                                                    selectedOptions[type.id]
-                                                        ?.id === option.id
+                                                    selectedOptions[
+                                                        type?.id as number
+                                                    ]?.id === option?.id
                                                         ? "outline outline-4 outline-primary"
                                                         : ""
                                                 }`}
